@@ -10,7 +10,11 @@ import cors from 'cors';
 import { GoogleGenAI } from "@google/genai";
 import * as prompts from './prompts.js';
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "https://dze.netlify.app",
+  methods: ["GET", "POST", "OPTIONS"],
+  credentials: true
+}));
 app.use(express.json());
 const port = process.env.PORT || 4000;
 

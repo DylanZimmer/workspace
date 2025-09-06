@@ -20,7 +20,7 @@ function Workspace() {
     //below was globalized
     const [showTracker, toggleShowTracker] = useState(false);
     const [leftWidth, setLeftWidth] = useState(0);
-    const apiUrl = process.env.REACT_APP_API_URL;
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
 
 
     /*  for globalization
@@ -150,8 +150,6 @@ function Workspace() {
       
         const sendMessage = async () => {
           try {
-            console.log("From chatbox:");
-            console.log(JSON.stringify({ messages: pendingMessageCB.histSnapshot }));
             //const responseTmp = await fetch("http://localhost:4000/chat", {
             const responseTmp = await fetch("{apiUrl}/chat", {
               method: "POST",
