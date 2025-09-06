@@ -1,13 +1,9 @@
-import { useContext } from 'react';
-//import { GlobalStateContext } from './global_states';
-
 export let trackingTextSnapshot = "";
 export function sendTrackerText(newTrackerText) {
   trackingTextSnapshot = newTrackerText;
 }
 // fxnsMeta should be a list mapped from useFxns
 export function useFxns() {
-  //const { toggleShowTracker, setLeftWidth } = useContext(GlobalStateContext);
 
   return {
     objCreator: {
