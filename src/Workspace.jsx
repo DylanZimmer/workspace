@@ -126,7 +126,7 @@ function Workspace() {
           console.log("From tracker:");
           console.log(JSON.stringify({ messages: pendingMessageT.latestMessages }));
           //const responseTmp = await fetch("http://localhost:4000/updateTracker", {
-          const responseTmp = await fetch("{apiUrl}/updateTracker", {
+          const responseTmp = await fetch(`${apiUrl}/updateTracker`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ messages: pendingMessageT.latestMessages })
@@ -151,7 +151,7 @@ function Workspace() {
         const sendMessage = async () => {
           try {
             //const responseTmp = await fetch("http://localhost:4000/chat", {
-            const responseTmp = await fetch("{apiUrl}/chat", {
+            const responseTmp = await fetch(`${apiUrl}/chat`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ messages: pendingMessageCB.histSnapshot })
