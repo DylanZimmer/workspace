@@ -20,6 +20,8 @@ function Workspace() {
     //below was globalized
     const [showTracker, toggleShowTracker] = useState(false);
     const [leftWidth, setLeftWidth] = useState(0);
+    const apiUrl = process.env.REACT_APP_API_URL;
+
 
     /*  for globalization
     const {
@@ -123,7 +125,8 @@ function Workspace() {
         try {
           console.log("From tracker:");
           console.log(JSON.stringify({ messages: pendingMessageT.latestMessages }));
-          const responseTmp = await fetch("http://localhost:4000/updateTracker", {
+          //const responseTmp = await fetch("http://localhost:4000/updateTracker", {
+          const responseTmp = await fetch("{apiUrl}/updateTracker", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ messages: pendingMessageT.latestMessages })
@@ -149,7 +152,8 @@ function Workspace() {
           try {
             console.log("From chatbox:");
             console.log(JSON.stringify({ messages: pendingMessageCB.histSnapshot }));
-            const responseTmp = await fetch("http://localhost:4000/chat", {
+            //const responseTmp = await fetch("http://localhost:4000/chat", {
+            const responseTmp = await fetch("{apiUrl}/chat", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ messages: pendingMessageCB.histSnapshot })
