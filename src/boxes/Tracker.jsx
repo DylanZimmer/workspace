@@ -17,13 +17,3 @@ function Tracker({ displayText, showInputContainer, input, setInput, handleSend 
   }
 
 export default Tracker;
-
-/*
-        <div className="tracker-output">
-          {displayText.split("\n").map((line, i) => (
-            <p key={i} className="tracker-entry ai">
-              {line}
-            </p>
-          ))}
-        </div>
-*/

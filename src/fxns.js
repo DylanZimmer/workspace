@@ -1,7 +1,3 @@
-export let trackingTextSnapshot = "";
-export function sendTrackerText(newTrackerText) {
-  trackingTextSnapshot = newTrackerText;
-}
 // fxnsMeta should be a list mapped from useFxns
 export function useFxns() {
 

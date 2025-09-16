@@ -1,4 +1,4 @@
-import { fxnsMeta, trackingTextSnapshot } from "../src/fxns.js";
+import { fxnsMeta } from "../src/fxns.js";
 
 const fxnList = Object.keys(fxnsMeta)
     .map(key => `Create a ${fxnsMeta[key].description.toLowerCase()}: ^^{${key}}`)
@@ -18,26 +18,23 @@ for all items they confirmed.
 `;
 
 export const trackerPrompt = `
-${trackingTextSnapshot}
-You are a tracking assistant.
+You are a tracking assistant. 
+You will receive:
+1. The name of one category.
+2. The current entries for that category.
+3. A user message and a bot message.
 
-The user will set the list of categories ahead of time. You must never create new categories yourself or rename the ones provided. The categories should remain exactly as given.
+Instructions:
+- If either message contains information relevant to this category, append it as a new bullet point.
+- If no new information belongs, return the category exactly as it was.
+- Always use bullet points for entries, like:
 
-Your task:
-- When the user sends a message, determine if the message is information that should be logged under one of the categories.
-- If yes, update the correct category with a new entry.
-- If no, return the list exactly as given.
-
-Always preserve the existing category structure in your output. Add new entries under the appropriate category while leaving other categories unchanged. Keep entries as bullet points or numbered lines inside the category block.
-
-Format strictly like this:
-
-Category1: {
-  - Entry
-  - Entry
+CategoryName: {
+  - Existing entry
+  - New entry
 }
 
-Category2: {
-  ...
-}
+- Do not remove or modify existing entries.
+- Do not change the category name.
 `
+

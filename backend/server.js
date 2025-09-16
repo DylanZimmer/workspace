@@ -10,6 +10,7 @@ import cors from 'cors';
 import { GoogleGenAI } from "@google/genai";
 import * as prompts from './prompts.js';
 const app = express();
+//app.use(cors());
 app.use(cors({
   origin: "https://trackedspace.netlify.app",
   methods: ["GET", "POST", "OPTIONS"],
@@ -39,12 +40,12 @@ app.post("/chat", async (req, res) => {
 
 app.post("/updateTracker", async (req, res) => {
   try {
-    const { messages } = req.body;
+    const { messages, trackerEntry } = req.body;
     const response = await ai.models.generateContent({
       model: "gemini-2.0-flash",
       contents: messages,
       config: {
-        systemInstructions: prompts.trackerPrompt,
+        systemInstructions: `${prompts.trackerPrompt}\n\nCurrent Entry:\n${trackerEntry}`,
       }
     });
     res.json({ role: "model", parts: [{ text: response.text }] });

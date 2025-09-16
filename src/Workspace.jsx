@@ -3,7 +3,6 @@ import './App.css';
 import Header from './Header';
 import Chatbox from './boxes/Chatbox';
 import Tracker from './boxes/Tracker';
-import { sendTrackerText } from './fxns';
 //import { useFxns } from './fxns.js';
 //import { GlobalStateContext } from './global_states';
 
@@ -20,6 +19,7 @@ function Workspace() {
     //below was globalized
     const [showTracker, toggleShowTracker] = useState(false);
     const [leftWidth, setLeftWidth] = useState(0);
+    const [trackerList, setTrackerList] = useState([]);
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
 
 
@@ -89,12 +89,14 @@ function Workspace() {
    const handleTrackerSend = () => {
      if (!trackerInput.trim()) return;
      if (trackerText === "") {
-       const trackerList = trackerInput.split(",").map(item => item.trim());
-       const formatted = trackerList
-         .map(item => `${item}: {\n\n}`)
-         .join("\n");  
-       setTrackerText(formatted);
-     }
+      setBaseCBInput("^^");
+      const trackerListTmp = trackerInput.split(",").map(item => item.trim());
+      setTrackerList(trackerListTmp);
+      const formatted = trackerListTmp
+        .map(item => `${item}: {\n\n}`)
+        .join("\n");  
+      setTrackerText(formatted);
+      }
      setTrackerInput("");
      toggleAllowTrackerInput(false);
    }
@@ -108,7 +110,7 @@ function Workspace() {
      setBaseCBHist(histSnapshot);
      setPendingMessageCB({ newMessage, histSnapshot }); 
      
-     //Format message to send to the tracker model. Set it as the tracker pending and send it in a useEffect
+
      if (showTracker) {
         const latestMessages = [ baseCBHist[baseCBHist.length - 1], newMessage ];
         setPendingMessageT({ latestMessages })
@@ -120,29 +122,31 @@ function Workspace() {
     //Below is tracker
     useEffect(() => {
       if (!pendingMessageT) return;
-      sendTrackerText(trackerText);
       const updateTracker = async () => {
-        try {
-          console.log("From tracker:");
-          console.log(JSON.stringify({ messages: pendingMessageT.latestMessages }));
-          //const responseTmp = await fetch("http://localhost:4000/updateTracker", {
-          const responseTmp = await fetch(`${apiUrl}/updateTracker`, {
+        let trackerTextTmp = "";
+        for (let i = 0; i < trackerList.length; i++) {
+          const trackerEntryText = (trackerText.match(new RegExp(`${trackerList[i]}:\\s*{[\\s\\S]*?}`)) || [])[0]?.trim() || "";
+          try {
+            const responseTmp = await fetch(`${apiUrl}/updateTracker`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ messages: pendingMessageT.latestMessages })
+              body: JSON.stringify({ 
+                messages: pendingMessageT.latestMessages,
+                trackerEntry: trackerEntryText
+              })
             });
-
             if (!responseTmp.ok) throw new Error(`HTTP ${responseTmp.status}`);
             const response = await responseTmp.json();
-
-            setTrackerText(response.parts[0].text);
-            
-        } catch(err) {
-          return;
+            trackerTextTmp = trackerTextTmp + trackerList[i] + ": {\n" + response.parts[0].text + "\n}\n";
+            setTrackerText(trackerTextTmp);
+          } catch (err) {
+            console.error(err);
+          }
         }
       };
-      updateTracker();
-    }, [pendingMessageT]);
+
+  updateTracker();
+  }, [pendingMessageT]);
 
     //Below is chatbox
     useEffect(() => {
@@ -150,7 +154,6 @@ function Workspace() {
       
         const sendMessage = async () => {
           try {
-            //const responseTmp = await fetch("http://localhost:4000/chat", {
             const responseTmp = await fetch(`${apiUrl}/chat`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -164,6 +167,9 @@ function Workspace() {
             if (returnResponse.includes("^^")) {
                 const retFxn = returnResponse.match(/\^\^([^}]+)\}/);
                 returnResponse = returnResponse.slice(retFxn[0].length).trim();
+                if (retFxn[0].includes("tracker")) {
+                  returnResponse = "Enter what you want tracked in the tracker input box."
+                }
                 if (returnResponse === "") {
                     returnResponse = "Yes, I can do that."
                 }
@@ -173,12 +179,13 @@ function Workspace() {
                 } catch (fxnErr) {
                     console.error("Error calling function:", fxnErr);
               }
-            }
+            };
 
-      
             setBaseCBHist(prev => [
               ...prev, { role: "model", parts: [{ text: returnResponse }] }
             ]);
+            
+
           } catch (err) {
             setBaseCBHist(prev => [
               ...prev, { role: "model", parts: [{ text: "[Error connecting to server]" }] }

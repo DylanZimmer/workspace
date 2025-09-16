@@ -126,6 +126,15 @@ body, html {
   background: rgba(255, 255, 240, 0.8);
 }
 
+.chatbox-input-hidden {
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  height: 0.5rem;       /* Collapsed height */
+  padding: 0;           /* Remove padding so it stays small */
+  background: rgba(255, 255, 240, 0.8);
+  overflow: hidden;     /* Hide anything inside */
+}
+
+
 /* Textarea styling */
 .chatbox-input {
   width: 100%;
