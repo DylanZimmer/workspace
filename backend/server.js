@@ -45,7 +45,7 @@ app.post("/updateTracker", async (req, res) => {
       model: "gemini-2.0-flash",
       contents: messages,
       config: {
-        systemInstructions: `${prompts.trackerPrompt}\n\nCurrent Entry:\n${trackerEntry}`,
+        systemInstruction: `${prompts.trackerPrompt}\n\nCurrent Entry:\n${trackerEntry}`,
       }
     });
     res.json({ role: "model", parts: [{ text: response.text }] });

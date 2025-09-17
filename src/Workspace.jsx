@@ -16,8 +16,8 @@ function Workspace() {
     const [allowTrackerInput, toggleAllowTrackerInput] = useState(true);
     const [trackerText, setTrackerText] = useState("");
     let trackingTextSnapshot = "";
-    //below was globalized
     const [showTracker, toggleShowTracker] = useState(false);
+    //below was globalized
     const [leftWidth, setLeftWidth] = useState(0);
     const [trackerList, setTrackerList] = useState([]);
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
@@ -96,9 +96,10 @@ function Workspace() {
         .map(item => `${item}: {\n\n}`)
         .join("\n");  
       setTrackerText(formatted);
+      toggleAllowTrackerInput(false);
       }
      setTrackerInput("");
-     toggleAllowTrackerInput(false);
+     //toggleAllowTrackerInput(false);
    }
    
    const handleChatSend = () => {
@@ -137,12 +138,12 @@ function Workspace() {
             });
             if (!responseTmp.ok) throw new Error(`HTTP ${responseTmp.status}`);
             const response = await responseTmp.json();
-            trackerTextTmp = trackerTextTmp + trackerList[i] + ": {\n" + response.parts[0].text + "\n}\n";
-            setTrackerText(trackerTextTmp);
+            trackerTextTmp += response.parts[0].text.trim() + "\n";
           } catch (err) {
             console.error(err);
           }
         }
+        setTrackerText(trackerTextTmp);
       };
 
   updateTracker();
@@ -168,7 +169,11 @@ function Workspace() {
                 const retFxn = returnResponse.match(/\^\^([^}]+)\}/);
                 returnResponse = returnResponse.slice(retFxn[0].length).trim();
                 if (retFxn[0].includes("tracker")) {
-                  returnResponse = "Enter what you want tracked in the tracker input box."
+                  if (showTracker == false) {
+                    returnResponse = "Enter what you want tracked in the tracker input box."
+                  } else {
+                    returnResponse = "There's already a tracker, just chat with me"
+                  }
                 }
                 if (returnResponse === "") {
                     returnResponse = "Yes, I can do that."
@@ -218,13 +223,13 @@ function Workspace() {
             <div className="split-layout" ref={containerRef}>
                 {showTracker && (
                     <>
-                    <div key='tracker' className="tracker-container" style={{ flex: leftWidth }}>
+                    <div className="tracker-container" style={{ flex: leftWidth }}>
                         <Tracker id='tracker' showInputContainer={allowTrackerInput} displayText={trackerText} input={trackerInput} setInput={setTrackerInput} handleSend={handleTrackerSend}/> 
                     </div>
                     <div className="resize-divider" onMouseDown={horizontalDrag} />
                     </>
                 )}
-                <div key='baseCB' className="chatbox-container" style={{ flex: 100 - leftWidth }}>
+                <div className="chatbox-container" style={{ flex: 100 - leftWidth }}>
                     <Chatbox id='baseCB' messages={baseCBHist} input={baseCBInput} setInput={setBaseCBInput} handleSend={handleChatSend} />
                 </div>
             </div>

@@ -20,7 +20,5 @@ export function useFxns() {
 }
 
 export const fxnsMeta = {
-    objCreator: { description: "Creates a new object in memory" },
     tracker: { description: "Opens a container that tracks info" },
-    setTrackingList: { description: "Tells the tracker what to keep track of"}
   };
