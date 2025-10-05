@@ -10,9 +10,8 @@ import cors from 'cors';
 import { GoogleGenAI } from "@google/genai";
 import * as prompts from './prompts.js';
 const app = express();
-//app.use(cors());
 app.use(cors({
-  origin: "https://trackedspace.netlify.app",
+  origin: ["https://trackedspace.netlify.app", "http://localhost:3000"],
   methods: ["GET", "POST", "OPTIONS"],
   credentials: true
 }));
