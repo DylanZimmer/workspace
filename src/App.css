@@ -335,3 +335,164 @@ body, html {
 .btn-header:hover {
   background-color: #e04c59;
 }
+
+.login-container {
+  position: absolute;
+  left: 2rem;              /* or wherever you want it horizontally */
+  top: 50%;
+  transform: translateY(-50%);
+  height: 80%;             /* scale relative to header height */
+  display: flex;
+  align-items: center;
+}
+
+.login-container .btn {
+  height: 100%;
+  min-height: unset;       /* remove fixed min-height so it scales */
+  padding: 0 1rem;
+}
+
+/* The dropdown login box */
+.login-box {
+  position: absolute;
+  top: 110%;                /* places it below the button */
+  left: 0;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 16px;
+  width: 220px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 100;
+}
+
+/* Inputs inside login box */
+.login-box input[type="email"],
+.login-box input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  margin: 6px 0;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+/* Buttons inside login box */
+.login-box button {
+  width: 100%;
+  padding: 8px;
+  margin-top: 6px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.login-box button:hover {
+  background-color: #218838;
+}
+
+/* Error message styling */
+.error-msg {
+  color: #dc3545;
+  font-size: 13px;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+/* Optional: smooth dropdown animation */
+.login-box {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.login-container .login-box {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.otc-container {
+    font-family: Arial, sans-serif;
+    padding: 16px;
+    max-width: 800px;
+    margin: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fafafa;
+}
+
+.otc-input-box {
+    margin-bottom: 16px;
+}
+
+.otc-input-label {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.otc-input-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.otc-small-input {
+    font-size: 0.9em;
+    width: 100px;
+}
+
+.otc-input {
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-width: 100px;
+}
+
+.otc-matrix-container {
+    margin-top: 16px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.otc-matrix-header {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.otc-matrix-dim {
+    width: 50px;
+    padding: 2px 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.matrix-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 8px;
+}
+
+.matrix-row {
+    display: flex;
+    gap: 4px;
+}
+
+.matrix-cell {
+    width: 50px;
+    padding: 4px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

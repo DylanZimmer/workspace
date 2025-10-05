@@ -2,8 +2,8 @@
 export function useFxns() {
 
   return {
-    objCreator: {
-      description: "Creates a new object in memory",
+    objTemplateCreator: {
+      description: "Creates a new object template",
       fxn: () => {
         console.log("Hit objCreator");
       }
@@ -21,4 +21,5 @@ export function useFxns() {
 
 export const fxnsMeta = {
     tracker: { description: "Opens a container that tracks info" },
+    objTemplateCreator: { description: "Creates an object template" },
   };

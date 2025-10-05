@@ -58,8 +58,8 @@ function Workspace() {
     }
 
     const fxns = {
-      objCreator: {
-        description: "Creates a new object in memory",
+      objTemplateCreator: {
+        description: "Creates a template of a new type of object",
         fxn: () => {
           console.log("Hit objCreator");
         }
@@ -174,7 +174,7 @@ function Workspace() {
                   } else {
                     returnResponse = "There's already a tracker, just chat with me"
                   }
-                }
+                } else if (retFxn[0].includes("objTemplateCreator"))
                 if (returnResponse === "") {
                     returnResponse = "Yes, I can do that."
                 }
@@ -206,11 +206,11 @@ function Workspace() {
     const tellCommands = () => {
       {showTracker ? (
         setBaseCBHist(prev => [
-          ...prev, { role: "model", parts: [{ text: "All I can do right now is make the tracker. Just talk to me please!" }] }
+          ...prev, { role: "model", parts: [{ text: "Ask me to create an object template!" }] }
         ])
       ) : (
         setBaseCBHist(prev => [
-          ...prev, { role: "model", parts: [{ text: "Ask me to make a tracker and it will follow our conversation!" }] }
+          ...prev, { role: "model", parts: [{ text: "Ask me to create an object template, or open a tracker and it will follow our conversation!" }] }
         ])
       )};
     }

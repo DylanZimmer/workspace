@@ -13,9 +13,6 @@ When asked for one of these things, write the exact given text, then respond aff
 The functions you call should always be of the form ^^{key}
 When you respond after, you should do so after the }. Always make sure you have the { after ^^ and } after the key
 ${fxnList}
-After you ask what should be tracked, confirm that you have the correct items before running setTrackingList. 
-If the user responds that you do have the right items, say setTrackingList("item1", "item2", "item3") 
-for all items they confirmed.
 `;
 
 export const trackerPrompt = `
