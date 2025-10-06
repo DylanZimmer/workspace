@@ -212,7 +212,7 @@ body, html {
   display: flex;
   justify-content: flex-start; /* align popup from left */
   align-items: center;
-  z-index: 1000;
+  z-index: 2;
 }
 
 .popup-border {
@@ -363,7 +363,7 @@ body, html {
   padding: 16px;
   width: 220px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  z-index: 100;
+  z-index: 2;
 }
 
 /* Inputs inside login box */
@@ -424,6 +424,9 @@ body, html {
     border: 1px solid #ccc;
     border-radius: 8px;
     background-color: #fafafa;
+    z-index: 2;
+    cursor: move;
+    position: absolute;
 }
 
 .otc-input-box {

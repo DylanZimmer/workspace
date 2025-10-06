@@ -20,8 +20,8 @@ function ObjTemplateCreator ({}) {
     };
 
     const resizeMatrix = () => {
-        const newMatrix = Array.from({ length: newRows }, (row, r) =>
-            Array.from({ length: newCols }, (col, c) => matrix[r]?.[c] ?? ""));
+        const newMatrix = Array.from({ length: rows }, (row, r) =>
+            Array.from({ length: cols }, (col, c) => matrix[r]?.[c] ?? ""));
         setMatrix(newMatrix);
     };
 
@@ -57,7 +57,7 @@ function ObjTemplateCreator ({}) {
                 {matrix.map((row, r) => (
                     <div className="matrix-row" key={`row_${r}`}>
                         {row.map((cell, c) => (
-                            <input className="matrix-cell" key={`cell_${r}_${c}`} value={cell} onChange={(e) => handleCellChange(r, c, e.target.value)} />
+                            <input className="matrix-cell" key={`cell_${r}_${c}`} value={cell} />
                         ))}
                     </div>
                 ))}

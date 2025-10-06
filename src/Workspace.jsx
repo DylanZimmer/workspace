@@ -3,6 +3,7 @@ import './App.css';
 import Header from './Header';
 import Chatbox from './boxes/Chatbox';
 import Tracker from './boxes/Tracker';
+import ObjTemplateCreator from './boxes/ObjTemplateCreator';
 //import { useFxns } from './fxns.js';
 //import { GlobalStateContext } from './global_states';
 
@@ -17,6 +18,7 @@ function Workspace() {
     const [trackerText, setTrackerText] = useState("");
     let trackingTextSnapshot = "";
     const [showTracker, toggleShowTracker] = useState(false);
+    const [showObjTemplateCreator, toggleShowObjTemplateCreator] = useState(false);
     //below was globalized
     const [leftWidth, setLeftWidth] = useState(0);
     const [trackerList, setTrackerList] = useState([]);
@@ -61,7 +63,7 @@ function Workspace() {
       objTemplateCreator: {
         description: "Creates a template of a new type of object",
         fxn: () => {
-          console.log("Hit objCreator");
+          toggleShowObjTemplateCreator(true);
         }
       },
       tracker: {
@@ -221,6 +223,9 @@ function Workspace() {
             <div className="background workspace"></div>
             <Header page="workspace" triggerTellCommands={tellCommands} />
             <div className="split-layout" ref={containerRef}>
+                {showObjTemplateCreator && (
+                    <ObjTemplateCreator />
+                )}
                 {showTracker && (
                     <>
                     <div className="tracker-container" style={{ flex: leftWidth }}>
