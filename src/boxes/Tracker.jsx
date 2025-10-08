@@ -3,7 +3,7 @@ import "../App.css";
 
 function Tracker({ displayText, showInputContainer, input, setInput, handleSend }) {
     return (
-      <div className="tracker-container">
+      <div className="second-box-container">
         <textarea className="tracker-output" value={displayText} readOnly />
         <div className="chatbox-input-container">
             {showInputContainer && (

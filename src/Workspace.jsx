@@ -168,24 +168,33 @@ function Workspace() {
             let returnResponse = response.parts[0].text;
 
             if (returnResponse.includes("^^")) {
+                let shouldCallFxn = false;
                 const retFxn = returnResponse.match(/\^\^([^}]+)\}/);
                 returnResponse = returnResponse.slice(retFxn[0].length).trim();
                 if (retFxn[0].includes("tracker")) {
                   if (showTracker == false) {
-                    returnResponse = "Enter what you want tracked in the tracker input box."
+                    returnResponse = "Enter what you want tracked in the tracker input box.";
+                    shouldCallFxn = true;
                   } else {
-                    returnResponse = "There's already a tracker, just chat with me"
+                    returnResponse = "There's already a tracker, just chat with me";
                   }
-                } else if (retFxn[0].includes("objTemplateCreator"))
-                if (returnResponse === "") {
-                    returnResponse = "Yes, I can do that."
+                } else if (retFxn[0].includes("objTemplateCreator")) {
+                  if (showObjTemplateCreator === false) {
+                    returnResponse = "Yes, I can do that.";
+                    shouldCallFxn = true;
+                  } else {
+                    returnResponse = "Please only create on template at a time";
+                  }
                 }
-                const fxnName = retFxn[1].replace(/[^a-zA-Z]/g, "");
-                try {
-                    callFxn(fxnName);
-                } catch (fxnErr) {
-                    console.error("Error calling function:", fxnErr);
-              }
+                  const fxnName = retFxn[1].replace(/[^a-zA-Z]/g, "");
+                  if (shouldCallFxn === true) {
+                    try {
+                      callFxn(fxnName);
+                    } catch (fxnErr) {
+                      console.error("Error calling function:", fxnErr);
+                    }
+                  }
+                
             };
 
             setBaseCBHist(prev => [
@@ -223,17 +232,29 @@ function Workspace() {
             <div className="background workspace"></div>
             <Header page="workspace" triggerTellCommands={tellCommands} />
             <div className="split-layout" ref={containerRef}>
-                {showObjTemplateCreator && (
+              {showTracker && showObjTemplateCreator ? (
+                <>
+                  <div className="horizontal-split" style={{ flex: leftWidth }}>
                     <ObjTemplateCreator />
-                )}
-                {showTracker && (
-                    <>
-                    <div className="tracker-container" style={{ flex: leftWidth }}>
-                        <Tracker id='tracker' showInputContainer={allowTrackerInput} displayText={trackerText} input={trackerInput} setInput={setTrackerInput} handleSend={handleTrackerSend}/> 
-                    </div>
-                    <div className="resize-divider" onMouseDown={horizontalDrag} />
-                    </>
-                )}
+                    <Tracker id='tracker' showInputContainer={allowTrackerInput} displayText={trackerText} input={trackerInput} setInput={setTrackerInput} handleSend={handleTrackerSend}/> 
+                  </div>
+                  <div className="resize-divider" onMouseDown={horizontalDrag} />
+                </>
+              ) : showTracker ? (
+                <>
+                  <div className="second-box-container" style={{ flex: leftWidth }}>
+                    <Tracker id='tracker' showInputContainer={allowTrackerInput} displayText={trackerText} input={trackerInput} setInput={setTrackerInput} handleSend={handleTrackerSend}/> 
+                  </div>
+                  <div className="resize-divider" onMouseDown={horizontalDrag} />
+                </>
+              ) : showObjTemplateCreator ? (
+                <>                  
+                  <div className="second-box-container" style={{ flex: leftWidth }}>
+                    <ObjTemplateCreator />
+                  </div>
+                  <div className="resize-divider" onMouseDown={horizontalDrag} />
+                </>
+              ) : null}
                 <div className="chatbox-container" style={{ flex: 100 - leftWidth }}>
                     <Chatbox id='baseCB' messages={baseCBHist} input={baseCBInput} setInput={setBaseCBInput} handleSend={handleChatSend} />
                 </div>

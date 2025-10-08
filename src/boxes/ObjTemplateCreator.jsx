@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+import '../App.css';
+import { db } from "../firebase";
+import { doc, setDoc, collection } from "firebase/firestore";
 
 //otc is object-template-creator
 function ObjTemplateCreator ({}) {
@@ -25,14 +28,18 @@ function ObjTemplateCreator ({}) {
         setMatrix(newMatrix);
     };
 
+    const saveTemplate = async () => {
+        console.log("Save in the db. Name of db should have identifier from login")
+    }
+
     useEffect(() => {
         resizeMatrix();
     }, [rows, cols]);
 
     return (
-        <div className="otc-container">
+        <div className="second-box-container">
             <div className="otc-input-box">
-                <div className="otc-input-label">Object Type:</div>
+                <div className="otc-input-label">Object Type (Name):</div>
                 <input className="otc-input" value={objType} onChange={(e) => setObjType(e.target.value)} />
             </div>
             <div className="otc-input-box">
@@ -62,6 +69,7 @@ function ObjTemplateCreator ({}) {
                     </div>
                 ))}
             </div>
+            <div className="btn-right" onClick={() => saveTemplate()}>Save Template</div>
         </div>
     )
 }
