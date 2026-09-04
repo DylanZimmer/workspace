@@ -24,7 +24,7 @@ app.post("/chat", async (req, res) => {
   try {
     const { messages } = req.body;
     const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
+      model: "gemini-3.6-flash",
       contents: messages,
       config: {
         systemInstruction: prompts.baseCBPrompt,
@@ -41,7 +41,7 @@ app.post("/updateTracker", async (req, res) => {
   try {
     const { messages, trackerEntry } = req.body;
     const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
+      model: "gemini-3.6-flash",
       contents: messages,
       config: {
         systemInstruction: `${prompts.trackerPrompt}\n\nCurrent Entry:\n${trackerEntry}`,
